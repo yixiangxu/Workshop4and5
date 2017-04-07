@@ -5,6 +5,7 @@ import {readDocument, writeDocument, addDocument} from './database.js';
  * some time in the future with data.
  */
 function emulateServerReturn(data, cb) {
+
   setTimeout(() => {
     cb(data);
   }, 4);
@@ -104,7 +105,10 @@ export function postComment(feedItemId, author, contents, cb) {
   feedItem.comments.push({
     "author": author,
     "contents": contents,
-    "postDate": new Date().getTime()
+    "postDate": new Date().getTime(),
+
+    //..
+    "likeCounter": []
   });
   writeDocument('feedItems', feedItem);
   // Return a resolved version of the feed item so React can
@@ -145,4 +149,22 @@ export function unlikeFeedItem(feedItemId, userId, cb) {
   }
   // Return a resolved version of the likeCounter
   emulateServerReturn(feedItem.likeCounter.map((userId) => readDocument('users', userId)), cb);
+}
+
+export function likeComment(feedItemId, userId, index, cb) {
+  var feedItem = readDocument('feedItems', feedItemId);
+  feedItem.comments[index].likeCounter.push(userId);
+  writeDocument('feedItems', feedItem);
+  emulateServerReturn(feedItem.comments[index].likeCounter, cb);
+}
+
+export function unlikeComment(feedItemId, userId, index, cb) {
+  var feedItem = readDocument('feedItems', feedItemId);
+  var userIndex = feedItem.comments[index].likeCounter.indexOf(userId);
+  if (userIndex !== -1) {
+    feedItem.comments[index].likeCounter.splice(userIndex, 1);
+    writeDocument('feedItems', feedItem);
+  }
+
+  emulateServerReturn(feedItem.comments[index].likeCounter, cb);
 }

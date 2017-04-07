@@ -111,7 +111,7 @@ didUserLike() {
                    <a href="#" onClick={(e) => this.handleLikeClick(e)}>
                  <span className="glyphicon glyphicon-thumbs-up"></span> {likeButtonText}
                </a>
-                
+
                  </li>
                  <li>
                  <a href="#"><span className="glyphicon glyphicon-comment"></span> Comment</a>
@@ -135,7 +135,7 @@ didUserLike() {
              data.comments.map((comment, i) => {
                // i is comment's index in comments array
                return (
-                 <Comment key={i} author={comment.author} postDate={comment.postDate}>{comment.contents}</Comment>
+                 <Comment key={i} index={i} feedItemID={this.state._id} likeCounter={comment.likeCounter} author={comment.author} postDate={comment.postDate}>{comment.contents}</Comment>
                );
              })
              }
@@ -143,47 +143,5 @@ didUserLike() {
        </div>
      </div>
    )
-   /*
-   return (
-     <div className="fb-status-update panel panel-default">
-       <div className="panel-body">
-         {contents}
-         <hr />
-         <div className="row">
-           <div className="col-md-12">
-             <ul className="list-inline">
-               <li>
-               <a href="#"><span className="glyphicon glyphicon-thumbs-up"></span> Like</a>
-               </li>
-               <li>
-               <a href="#"><span className="glyphicon glyphicon-comment"></span> Comment</a>
-               </li>
-               <li>
-               <a href="#"><span className="glyphicon glyphicon-share-alt"></span> Share</a>
-               </li>
-             </ul>
-           </div>
-         </div>
-       </div>
-       <div className="panel-footer">
-         <div className="row">
-           <div className="col-md-12">
-             <a href="#">{data.likeCounter.length} people</a> like this
-           </div>
-         </div>
-         <hr />
-         <CommentThread onPost={(commentText) => this.handleCommentPost(commentText)}>
-           {
-             data.comments.map((comment, i) => {
-               // i is comment's index in comments array
-               return (
-                 <Comment key={i} author={comment.author} postDate={comment.postDate}>{comment.contents}</Comment>
-               );
-             })
-           }
-         </CommentThread>
-       </div>
-     </div>
-   )*/
   }
 }
